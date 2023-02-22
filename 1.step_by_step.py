@@ -24,8 +24,8 @@ Linear_model=LinearRegression()
 Linear_model.fit(X_lin_train,y_lin_train)
 pred=Linear_model.predict(X_lin_test)
 print(pred)
-tt=Linear_model.score(X_lin_test,pred)
-print(tt)
+accuracy=Linear_model.score(X_lin_test,pred)
+print(accuracy)
 
 for idx,col_name in enumerate(X_lin_train.columns):
     print("The coefficient for {} is {}".format(col_name,Linear_model.coef_[0][idx]))
