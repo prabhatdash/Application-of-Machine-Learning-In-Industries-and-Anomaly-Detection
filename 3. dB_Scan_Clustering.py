@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 
-data = pd.read_csv('iot_telemetry_data.csv')
-data = data.iloc[0:1000, [3, 8]]
+data = pd.read_csv('hr_data.csv')
+data = data.iloc[0:500, [3, 8]]
 print(data.to_markdown())
 X = data.values
 
