@@ -1,33 +1,33 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 
-data = pd.read_csv('hr_data.csv')
-data = data.iloc[0:500, [3, 8]]
-print(data.to_markdown())
-X = data.values
 
-# standardize the data
-X = StandardScaler().fit_transform(X)
+dataset = pd.read_csv('hr_data.csv')
 
-# DBSCAN clustering
-dbscan = DBSCAN(eps=0.5, min_samples=5)
-dbscan.fit(X)
+features = dataset.iloc[0:, [2,3]].values
 
-# plot the results
+print(features.shape)
+
+
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
+
+
+dbscan = DBSCAN(eps=0.3, min_samples=2)
+dbscan.fit(scaled_features)
+
+
 labels = dbscan.labels_
-n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
-colors = plt.cm.Spectral(np.linspace(0, 1, n_clusters))
 
-for cluster, color in zip(range(n_clusters), colors):
-    mask = (labels == cluster)
-    plt.scatter(X[mask, 0], X[mask, 1], c=color)
 
-# plt.title(f"DBSCAN Clustering (n_clusters={n_clusters})")
-plt.xlabel("Humidity")
-plt.ylabel("Temperature")
-info = f"DBSCAN Clustering, No of Clusters: {n_clusters} )"
-plt.title(info)
+dataset['Cluster'] = labels
+print(dataset['Cluster'].to_markdown())
+
+
+plt.scatter(dataset['average_montly_hours'], dataset['number_project'], c=labels, cmap='viridis')
+plt.xlabel('average_montly_hours')
+plt.ylabel('number_project')
+plt.title('DBSCAN Clustering')
 plt.show()
